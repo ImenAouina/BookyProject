@@ -1,0 +1,72 @@
+@{
+    int currentUserId = (int)Context.Session.GetInt32("userId");
+}
+@model Book
+
+<h3 class="bg-light p-2">Update this Book</h3>
+<hr>    
+<div class="col-6 border bordre-2 border-black rounded p-3 bg-light">
+    <form asp-action="UpdateBook" asp-controller="Home" method="post" asp-route-bookId="@Model.BookId">
+        <div class="row mb-3">
+            <div class="col-md-3">
+                <label asp-for="Title" class="col-form-label">Title</label>
+            </div>
+            <div class="col-md-9">
+                <input asp-for="Title" class="form-control">
+                <span asp-validation-for="Title" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-md-3">
+                <label asp-for="Cover" class="col-form-label">Book Cover (URL Format)</label>
+            </div>
+            <div class="col-md-9">
+                <input asp-for="Cover" class="form-control">
+                <span asp-validation-for="Cover" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-md-3">
+                <label asp-for="Category" class="col-form-label">Category</label>
+            </div>
+            <div class="col-md-9">
+                <select asp-for="Category" class="form-select">
+                    <option value=null selected>Select a Category</option>
+                    <option value="Fantasy">Fantasy</option>
+                    <option value="Science Fiction">Science Fiction</option>
+                    <option value="Action & Adventure">Action & Adventure</option>
+                    <option value="Mystery">Mystery</option>
+                    <option value="Horror">Horror</option>  
+                    <option value="Thriller & Suspense">Thriller & Suspense</option>
+                    <option value="Historical Fiction">Historical Fiction</option>  
+                    <option value="Romance">Romance</option>
+                    <option value="Children’s">Children’s</option>                 
+                </select>
+                <span asp-validation-for="Category" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-md-3">
+                <label asp-for="PublicationYear" class="col-form-label">Publication Year</label>
+            </div>
+            <div class="col-md-9">
+                <input asp-for="PublicationYear" class="form-control">
+                <span asp-validation-for="PublicationYear" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-md-3">
+                <label asp-for="IsAvailable" class="col-form-label">Is Available?</label>
+            </div>
+            <div class="col-md-9">
+                <input asp-for="IsAvailable" class="form-check">
+                <span asp-validation-for="IsAvailable" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-md-9">
+                <input type="submit" value="Update" class="btn btn-outline-primary">
+            </div>
+        </div>
+    </form>
+</div> 

@@ -1,0 +1,86 @@
+@{
+    int currentUserId = (int)Context.Session.GetInt32("userId");
+}
+@model List<Book>
+    <h3>Welcome @Context.Session.GetString("username") !</h3>
+
+@if (Model.Count == 0)
+{
+    <h3 class="bg-warning text-center">There's still no Books</h3>
+}
+else
+{ 
+    <form class ="p-3 m-2 border border-1 border-black rounded d-inline-flex bg-light " asp-action="SearchByCategory" method="post">
+        <input class ="m-2" type="text" name="category" placeholder="Search by Category 🔍">
+        <button type ="submit" class="btn btn-outline-primary m-1">Search</button>
+        <a class="btn btn-outline-danger m-1" asp-controller="Home" asp-action="Dashboard">Clear Search</a>
+    </form>
+    <div class="row p-2 m-1">
+        @foreach (Book b in Model)
+        {
+            <div class="col-4 border border-1 border-black rounded p-3 bg-light">
+                <div>
+                    <img src="@b.Cover" width="300px" height="200px" alt="">
+                </div> 
+                <div>
+                    <a asp-action="ShowDetails" asp-route-bookId="@b.BookId">@b.Title</a>     
+                </div>
+                <p><span class="fw-bold ">Author:</span>@b.Author?.FirstName @b.Author?.LastName</p>
+                <p><span class="fw-bold">Category:</span> @b.Category</p>
+                @* <p class="text-danger">@(b.IsAvailable == true ? "Is Available" : "Not Available")</p>  *@
+                @{
+                    if(b.IsAvailable == true) 
+                    {
+                        <p class="text-dark fw-bold"> Is Available </p>
+                    } 
+                    else 
+                    {
+                        <p class="text-danger fw-bold"> Not Available </p>
+                    }
+                    
+                }
+                <p><span class="fw-bold text-danger ">@b.Likes.Count</span> like(s)</p>
+                @{
+                    if(b.UserId == currentUserId )
+                    { 
+                        if(b.Likes.Count ==0)
+                        {
+                            <p>No Likes so far</p> 
+                        }
+                        else{
+                            <p>Liked by @b.Likes.Count user(s)</p>
+                        }
+                          
+                    }
+                    else       
+                    {
+                        if(b.Likes.Count == 0)
+                        {
+                            <p>Be the First To like This</p> 
+                        }
+                        else{
+                            <p>Liked by @b.Likes.Count user(s)</p>
+                        }                         
+                    }
+                }  
+                <div>
+                @{
+                    if(b.UserId == currentUserId)
+                    {
+                        <a class="btn btn-outline-primary mr-3" asp-action="EditBook" asp-route-bookId=@b.BookId>Edit</a>
+                        <a class="btn btn-outline-danger" asp-action="DeleteBook" asp-route-bookId=@b.BookId>Delete</a>    
+                    }
+                    else if (!@b.Likes.Any(e => e.UserId == currentUserId && e.BookId == b.BookId))
+                    {
+                        <a asp-action="Like" asp-route-bookId=@b.BookId>Like</a>
+                    }
+                    else
+                    {
+                        <a asp-action="UnLikeBook" asp-route-bookId=@b.BookId>UnLike</a>
+                    } 
+                } 
+                </div>           
+            </div>
+        }
+    </div>
+}

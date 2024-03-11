@@ -1,0 +1,6 @@
+@model Like
+<form asp-action ="UnLike" asp-controller="Home">
+    <input type="hidden" asp-for="BookId" value="@ViewBag.BookId">
+    <input type="hidden" asp-for="UserId" value="@ViewBag.UserId">
+    <button class="btn btn-outline-danger p-3 m-4">UnLike</button>
+</form>
